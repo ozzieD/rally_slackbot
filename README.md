@@ -1,2 +1,2 @@
 # rally_slackbot
-A slackbot for interacting with CA Agile Central's API
+A slackbot for interfacing with CA Agile Central's API
