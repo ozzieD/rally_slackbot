@@ -37,7 +37,7 @@ class Command(object):
     def parse_command_text(self, text):
         
         cmds = ''; cmd = ''; txt = ''
-        for command in commands.keys():
+        for command in self.commands.keys():
             cmds += command + '|'
         cmds = cmds.strip('|')
         
