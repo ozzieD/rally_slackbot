@@ -41,7 +41,7 @@ class Command(object):
             cmds += command + '|'
         cmds = cmds.strip('|')
         
-        p = re.compile('(' + cmds.strip('|') + ')')
+        p = re.compile('(' + cmds.strip('|') + ')', re.IGNORECASE)
         msg = re.search(p, text)
         if msg is None:
             cmd = text
