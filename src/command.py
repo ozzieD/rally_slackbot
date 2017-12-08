@@ -35,16 +35,20 @@ class Command(object):
         return response 
 
     def parse_command_text(self, text):
-        cmds = ''
-
-        for c in self.commands.keys():
-            cmds += c + '|'
         
+        cmds = ''; cmd = ''; txt = ''
+        for command in commands.keys():
+            cmds += command + '|'
         cmds = cmds.strip('|')
+        
         p = re.compile('(' + cmds.strip('|') + ')')
         msg = re.search(p, text)
-        cmd = msg.group()
-        txt = text.split(cmd)[1].strip()
+        if msg is None:
+            cmd = text
+            txt = ""
+        else:
+            cmd = msg.group()
+            txt = text.split(cmd)[1].strip()
         
         response = cmd, txt
         return response

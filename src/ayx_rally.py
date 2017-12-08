@@ -9,21 +9,9 @@ load_dotenv(find_dotenv())
 
 """
 keys = 
-    'Blocked',
-    'BlockedReason', 
-    'c_KanbanStateAlteryxSuperset', 
-    'Description', 
-    'FormattedID', 
-    'Feature', 
-    'LastUpdateDate',
-    'Iteration', 
-    'Name', 
-    'Owner', 
-    'PlanEstimate', 
-    'Project', 
-    'Ready', 
-    'Release',
-    'RevisionHistory'
+    'Blocked', 'BlockedReason', 'c_KanbanStateAlteryxSuperset', 'Description', 
+    'FormattedID', 'Feature', 'LastUpdateDate', 'Iteration', 'Name', 
+    'Owner', 'PlanEstimate', 'Project', 'Ready', 'Release', 'RevisionHistory'
 
 """
 class AyxRally:
