@@ -1,4 +1,4 @@
-import re
+import os, re
 import ayx_rally 
 
 class Command(object):
@@ -13,7 +13,8 @@ class Command(object):
         self.commands = {
             "echo": self.echo,
             "help": self.help,
-            "state": self.state
+            "state": self.state,
+            "quit": self.quit
         }
 
     def handle_command(self, user, command):
@@ -78,3 +79,6 @@ class Command(object):
             response += '*' + self.ayx.get_userstory_info(_id, _attr) + '*'
             
         return response
+
+    def quit(self):
+        os._exit(1)
