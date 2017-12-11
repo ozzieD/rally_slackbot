@@ -56,6 +56,8 @@ class Command(object):
         response = ""
         if bool(_MSG):
             response = _MSG.group().upper()
+        else:
+            response = "Something is screwy. " + self._echo_usr(usr_txt)
         return response
                 
 ##
