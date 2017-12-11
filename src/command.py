@@ -1,6 +1,6 @@
 ### MODULE IMPORTS
 # 3rd-party imports
-import os, regex
+import regex, sys
 
 # local source imports
 import ayx_rally 
@@ -100,6 +100,5 @@ class Command(object):
     
 ##
     def _quit(self):
-        os.exit(1)
-
-    
+        sys.exit(1)
+   
