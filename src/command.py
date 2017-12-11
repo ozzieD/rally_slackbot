@@ -1,6 +1,6 @@
 ### MODULE IMPORTS
 # 3rd-party imports
-import os, re
+import os, regex
 
 # local source imports
 import ayx_rally 
