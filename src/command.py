@@ -1,4 +1,8 @@
+### MODULE IMPORTS
+# 3rd-party imports
 import os, re
+
+# local source imports
 import ayx_rally 
 
 class Command(object):

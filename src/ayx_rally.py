@@ -1,8 +1,12 @@
-# import req'd libs
+### MODULE IMPORTS
+# 3rd-party imports
 import os
-import command
 from pyral import Rally, rallyWorkset
 from dotenv import load_dotenv, find_dotenv
+
+# local source imports
+import command
+
 
 # expose local environment constants
 load_dotenv(find_dotenv())
