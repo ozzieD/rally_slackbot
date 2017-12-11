@@ -39,7 +39,7 @@ class AyxRally:
         response = self.rally.get(_artifact, fetch=True, query=_query).content['QueryResult']['Results'][0]
         return response 
 
-    def _query_state(self, _id, _artifact):
+    def _query_artifact_state(self, _id, _artifact):
         _query = f'FormattedID = "{_id}"'
         _rallyresp = self._rally_get(_artifact, _query)
 

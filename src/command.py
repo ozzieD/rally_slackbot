@@ -16,7 +16,7 @@ class Command(object):
         self.ayx = ayx_rally.AyxRally()
         self.commands = {
             "help": self._get_help,
-            "state": self._get_item_state
+            "state": self._get_artifact_state
         }
         self.CREATOR = 'garth'
         self.EXIT = {"quit": self._quit}
@@ -89,17 +89,17 @@ class Command(object):
         return response 
 
 ##    
-    def _get_item_state(self, formatted_id):
+    def _get_artifact_state(self, formatted_id):
         _artifact_key = regex.split('([\D]+)', formatted_id)[1]
         _artifact = self.ARTIFACT_TYPE[_artifact_key]
-        _rallyresp = self.ayx._query_state(formatted_id, _artifact)        
+        _rallyresp = self.ayx._query_artifact_state(formatted_id, _artifact)        
         response = f"The current state of <{_rallyresp[0]}|{formatted_id}> is: *{_rallyresp[1]}*"
         return response
     
     def _get_item_owner(self, formatted_id):
         # identify attribute type from formatted id
 
-        # 
+        # pass the formatted id and 
 
 
 ##
