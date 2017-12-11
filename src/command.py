@@ -20,8 +20,9 @@ class Command(object):
             # "quit": self._quit,
             "state": self._get_state
         }
-        self.METHOD_LIST = list(getattr(self, "commands").keys())
+        self.CREATOR = 'garth'
         self.EXIT = {"quit": self._quit}
+        self.METHOD_LIST = list(getattr(self, "commands").keys())
         
 ##
     def _build_search_pattern(self, list_arry):
@@ -106,6 +107,9 @@ class Command(object):
         return response
     
 ##
-    def _quit(self):
-        sys.exit(1)
+    def _quit(self, user):
+        if user is self.CREATOR:
+            sys.exit(1)
+        else:
+            pass
    
