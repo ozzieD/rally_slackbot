@@ -21,6 +21,20 @@ keys =
 class AyxRally:
     
     def __init__(self):
+        self.RALLYREST_KEYS = {
+            'AST': 'c_KanbanStateAlteryxSuperset', 
+            'B': 'Blocked',  'BR': 'BlockedReason', 
+            'D': 'Description', 
+            'F': 'PortfolioItem', 
+            'I': 'Iteration', 'ID': 'FormattedID', 
+            'LU': 'LastUpdateDate', 
+            'N': 'Name', 
+            'O': 'Owner', 'OID': 'ObjectID',
+            'PE': 'PlanEstimate', 
+            'RDY': 'Ready',  'REL': 'Release', 
+            'SS': 'ScheduleState',
+        }
+
         # collect service agent info
         RALLY_SERVER = os.environ.get('RALLY_SERVER')
         RALLY_USER = os.environ.get('RALLY_USER')
@@ -36,16 +50,21 @@ class AyxRally:
         self.rally_url = f"https://rally1.rallydev.com/#/{rally_project_id}"
     
     def _rally_get(self, _artifact, _query):
-        response = self.rally.get(_artifact, fetch=True, query=_query).content['QueryResult']['Results'][0]
+        _rallyresp = self.rally.get(_artifact, fetch=True, query=_query).content['QueryResult']['Results'][0]
+        response = {result: _rallyresp[result] for result in [self.RALLYREST_KEYS[k] for k in self.RALLYREST_KEYS]}
+        for _k in response.keys():
+            if isinstance(response[_k], dict):
+                response[_k] = response[_k].get('_refObjectName')
         return response 
 
     def _query_artifact_state(self, _id, _artifact):
         _query = f'FormattedID = "{_id}"'
-        _rallyresp = self._rally_get(_artifact, _query)
+        _rallyget = self._rally_get(_artifact, _query)
 
-        _rallykey = 'c_KanbanStateAlteryxSuperset'
-        _rallyrespobj = self.rally_url + '/detail/userstory/' + str(_rallyresp.get('ObjectID'))
-        _rallyrespkey = _rallyresp.get(_rallykey)
+        _rallystate = _rallyget['c_KanbanStateAlteryxSuperset']
+        _rallyobjid = str(_rallyget['ObjectID'])
+        _rallyrespobj = self.rally_url + '/detail/userstory/' + _rallyobjid
+        _rallyrespkey = _rallyresp.get(_rallystate)
 
         response = [_rallyrespobj, _rallyrespkey]
         return response

@@ -10,7 +10,7 @@ class Command(object):
     def __init__(self):
         self.ARTIFACT_TYPE = {
             'US': 'UserStory', 'DE': 'Defect', 'DS': 'DefectSuite', 
-            'TA': 'Task', 'TC': 'TestCase', 'TS': 'TestSet', 
+            'TA': 'Task', 'TC': 'TestCase', 'TS': 'TestSet', 'F': 'PortfolioItem',
             'PI': 'PortfolioItem'
         }
         self.ayx = ayx_rally.AyxRally()
@@ -94,10 +94,17 @@ class Command(object):
         response = f"The current state of <{_rallyresp[0]}|{formatted_id}> is: *{_rallyresp[1]}*"
         return response
     
-    def _get_item_owner(self, formatted_id):
+    def _get_artifact_owner(self, formatted_id):
         # identify attribute type from formatted id
+        _artifact_key = regex.split('([\D]+)', formatted_id)[1]
+        _artifact_type = self.ARTIFACT_TYPE[_artifact_key]
 
-        # pass the formatted id and 
+        # pass the artifact type and formatted id to ayx_rally
+        
+
+        # populate the response with results
+
+        # return response
 
 
 ##
