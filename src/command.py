@@ -49,11 +49,6 @@ class Command(object):
         return response                
     
 ##    
-    def _get_method_list(self):
-        self._method_list = list(getattr(self, "commands").keys())
-        return self._method_list
-    
-##    
     def _get_formatted_id(self, usr_txt):
         _FLAGS = regex.I
         _P0 = regex.compile('((?:US|DE|DS|TA|TC|TS|PI)[0-9]+)', _FLAGS)
@@ -80,8 +75,8 @@ class Command(object):
     
 ##    
     def _echo_usr(self, usr_txt):
-        if bool(text):
-            response = text
+        if bool(usr_txt):
+            response = usr_txt
         else:
             response = "All you sent me was the " + text + " command." 
         return response 
