@@ -8,26 +8,66 @@ import ayx_rally
 class Command(object):
 
     def __init__(self):
-        """
-        constructs a dictionary of functions that can be
-        called to handle an event
-        """
-        self.ayx = ayx_rally.AyxRally()
-
-        self.commands = {
-            "echo": self.echo,
-            "help": self.help,
-            "state": self.state,
-            "quit": self.quit
+        self.ARTIFACT_TYPE = {
+            'US': 'UserStory', 'DE': 'Defect', 'DS': 'DefectSuite', 
+            'TA': 'Task', 'TC': 'TestCase', 'TS': 'TestSet', 
+            'PI': 'PortfolioItem'
         }
+        self.ayx = ayx_rally.AyxRally()
+        self.commands = {
+            "echo": self._echo_usr,
+            "help": self._get_help,
+            "quit": self._quit,
+            "state": self._get_state
+        }      
+        self.METHOD_LIST = list(getattr(self, "commands").keys())
+        
+##
+    def _build_search_pattern(self, list_arry):
+        response = ""
+        for _M in list_arry:
+            response += _M + '|'
+        return response.strip('|')
 
-    def handle_command(self, user, command):
+##    
+    def _find_command(self, usr_txt):
+        response = ""; _P0 = ""; _P1 = ""
+        _FLAGS = regex.I | regex.BESTMATCH        
+        _P0 = regex.compile('(' + self._build_search_pattern(self.METHOD_LIST) + '){e}', _FLAGS)
+
+        # scan for keyword
+        _MSG0 = regex.search(_P0, usr_txt)
+        if bool(_MSG0):
+            _P1 = regex.compile('(' + usr_txt[_MSG0.start():_MSG0.end()] + '){e<=2}', _FLAGS)
+        else:
+            print("No matches...[TODO: write logic to handle when messages aren't matched]")
+        
+        for _FUNC in self.METHOD_LIST:
+            _MSG1 = regex.search(_P1, _FUNC)
+            if bool(_MSG1):
+                response = _MSG1.group()
+        return response                
+    
+##    
+    def _get_method_list(self):
+        self._method_list = list(getattr(self, "commands").keys())
+        return self._method_list
+    
+##    
+    def _get_formatted_id(self, usr_txt):
+        _FLAGS = regex.I
+        _P0 = regex.compile('((?:US|DE|DS|TA|TC|TS|PI)[0-9]+)', _FLAGS)
+        _MSG = regex.search(_P0, usr_txt)
+        response = ""
+        if bool(_MSG):
+            response = _MSG.group().upper()
+        return response
+                
+##
+    def _handle_command(self, user, usr_txt):
         response = '<@' + user + '> '
-
-        cmd_txt = self.parse_command_text(command)
-        cmd = cmd_txt[0]
-        txt = cmd_txt[1]
-        print("command is: " + cmd, "\nmessage is: " + txt)
+        cmd = self._find_command(usr_txt)
+        txt = self._get_formatted_id(usr_txt)
 
         if cmd in self.commands:
             if cmd in ('echo', 'state'):
@@ -35,54 +75,34 @@ class Command(object):
             else:
                 response += self.commands[cmd]()
         else:
-            response += "I do not understand the command: " + command + ". " + self.help()
-        
-        return response 
-
-    def parse_command_text(self, text):
-        
-        cmds = ''; cmd = ''; txt = ''
-        for command in self.commands.keys():
-            cmds += command + '|'
-        cmds = cmds.strip('|')
-        
-        p = re.compile('(' + cmds.strip('|') + ')', re.IGNORECASE)
-        msg = re.search(p, text)
-        if msg is None:
-            cmd = text
-            txt = ""
-        else:
-            cmd = msg.group()
-            txt = text.split(cmd)[1].strip()
-        
-        response = cmd, txt
+            response += "I do not understand the command: " + command + ". " + self.help()        
         return response
-
-    def echo(self, text):
-
+    
+##    
+    def _echo_usr(self, usr_txt):
         if bool(text):
             response = text
         else:
             response = "All you sent me was the " + text + " command." 
         return response 
-
-    def help(self):
+    
+##    
+    def _get_help(self):
         response = "I currently support the following commands:\r\n"
-
         for command in self.commands:
             response += command + '\r\n'
-        
         return response 
-    
-    def state(self, storyid):
-        _id = storyid.upper()
-        _attr = 'c_KanbanStateAlteryxSuperset'
-        response = f"The current state of *{_id}* is: "
 
-        if _id.startswith('US'):
-            response += '*' + self.ayx.get_userstory_info(_id, _attr) + '*'
-            
+##    
+    def _get_state(self, formatted_id):
+        _artifact_key = regex.split('([\D]+)', formatted_id)[1]
+        _artifact = self.ARTIFACT_TYPE[_artifact_key]
+        _rallyresp = self.ayx._query_state(formatted_id, _artifact)        
+        response = f"The current state of *{formatted_id}* is: *{_rallyresp}*"
         return response
+    
+##
+    def _quit(self):
+        os.exit(1)
 
-    def quit(self):
-        os._exit(1)
+    
