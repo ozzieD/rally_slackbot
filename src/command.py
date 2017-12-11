@@ -46,7 +46,7 @@ class Command(object):
                 if bool(_MSG1):
                     response = _MSG1.group().lower()
                 else:
-                    response = self._echo_usr(usr_txt)
+                    response = usr_txt
         else:
             print("No matches...[TODO: write logic to handle when messages aren't matched]")
             response = usr_txt
@@ -76,7 +76,7 @@ class Command(object):
             else:
                 response += self.commands[cmd]()
         elif cmd in self.EXIT:
-            response += self.EXIT[cmd]()
+            response += self.EXIT[cmd](user)
         else:
             response += "I do not understand the command: _*" + cmd + "*_. " + self._get_help()        
         return response    
@@ -93,7 +93,7 @@ class Command(object):
         _artifact_key = regex.split('([\D]+)', formatted_id)[1]
         _artifact = self.ARTIFACT_TYPE[_artifact_key]
         _rallyresp = self.ayx._query_state(formatted_id, _artifact)        
-        response = f"The current state of *{formatted_id}* is: *{_rallyresp}*"
+        response = f"The current state of <{_rallyresp[0]}|{formatted_id}> is: *{_rallyresp[1]}*"
         return response
     
 ##
