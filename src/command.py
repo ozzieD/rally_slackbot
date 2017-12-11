@@ -15,9 +15,7 @@ class Command(object):
         }
         self.ayx = ayx_rally.AyxRally()
         self.commands = {
-            "echo": self._echo_usr,
             "help": self._get_help,
-            # "quit": self._quit,
             "state": self._get_state
         }
         self.CREATOR = 'garth'
@@ -63,7 +61,7 @@ class Command(object):
         if bool(_MSG):
             response = _MSG.group().upper()
         else:
-            response = "Something is screwy. " + self._echo_usr(usr_txt)
+            response = usr_txt
         return response
                 
 ##
@@ -81,15 +79,7 @@ class Command(object):
             response += self.EXIT[cmd]()
         else:
             response += "I do not understand the command: _*" + cmd + "*_. " + self._get_help()        
-        return response
-    
-##    
-    def _echo_usr(self, usr_txt):
-        if bool(usr_txt):
-            response = usr_txt
-        else:
-            response = "All you sent me was the " + text + " command." 
-        return response 
+        return response    
     
 ##    
     def _get_help(self):
