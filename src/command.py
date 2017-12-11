@@ -17,10 +17,11 @@ class Command(object):
         self.commands = {
             "echo": self._echo_usr,
             "help": self._get_help,
-            "quit": self._quit,
+            # "quit": self._quit,
             "state": self._get_state
-        }      
+        }
         self.METHOD_LIST = list(getattr(self, "commands").keys())
+        self.EXIT = {"quit": self._quit}
         
 ##
     def _build_search_pattern(self, list_arry):
@@ -33,19 +34,23 @@ class Command(object):
     def _find_command(self, usr_txt):
         response = ""; _P0 = ""; _P1 = ""
         _FLAGS = regex.I | regex.BESTMATCH        
-        _P0 = regex.compile('(' + self._build_search_pattern(self.METHOD_LIST) + '){e}', _FLAGS)
+        _P0 = regex.compile('(' + self._build_search_pattern(self.METHOD_LIST) + '){e<=1}', _FLAGS)
 
         # scan for keyword
         _MSG0 = regex.search(_P0, usr_txt)
+        print(_MSG0)
         if bool(_MSG0):
             _P1 = regex.compile('(' + usr_txt[_MSG0.start():_MSG0.end()] + '){e<=2}', _FLAGS)
+            for _FUNC in self.METHOD_LIST:
+                _MSG1 = regex.search(_P1, _FUNC)
+                print(_MSG1)
+                if bool(_MSG1):
+                    response = _MSG1.group().lower()
+                else:
+                    response = self._echo_usr(usr_txt)
         else:
             print("No matches...[TODO: write logic to handle when messages aren't matched]")
-        
-        for _FUNC in self.METHOD_LIST:
-            _MSG1 = regex.search(_P1, _FUNC)
-            if bool(_MSG1):
-                response = _MSG1.group()
+            response = usr_txt
         return response                
     
 ##    
@@ -71,8 +76,10 @@ class Command(object):
                 response += self.commands[cmd](txt)
             else:
                 response += self.commands[cmd]()
+        elif cmd in self.EXIT:
+            response += self.EXIT[cmd]()
         else:
-            response += "I do not understand the command: " + command + ". " + self.help()        
+            response += "I do not understand the command: _*" + cmd + "*_. " + self._get_help()        
         return response
     
 ##    
