@@ -37,12 +37,10 @@ class Command(object):
 
         # scan for keyword
         _MSG0 = regex.search(_P0, usr_txt)
-        print(_MSG0)
         if bool(_MSG0):
             _P1 = regex.compile('(' + usr_txt[_MSG0.start():_MSG0.end()] + '){e<=2}', _FLAGS)
             for _FUNC in self.METHOD_LIST:
                 _MSG1 = regex.search(_P1, _FUNC)
-                print(_MSG1)
                 if bool(_MSG1):
                     response = _MSG1.group().lower()
                 else:
