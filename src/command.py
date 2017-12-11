@@ -19,7 +19,9 @@ class Command(object):
             "state": self._get_artifact_state
         }
         self.CREATOR = 'garth'
-        self.EXIT = {"quit": self._quit}
+        self.hidden_commands = {
+            "quit": self._quit
+        }
         self.METHOD_LIST = list(getattr(self, "commands").keys())
         
 ##
@@ -43,8 +45,6 @@ class Command(object):
                 _MSG1 = regex.search(_P1, _FUNC)
                 if bool(_MSG1):
                     response = _MSG1.group().lower()
-                else:
-                    response = usr_txt
         else:
             print("No matches...[TODO: write logic to handle when messages aren't matched]")
             response = usr_txt
@@ -68,13 +68,13 @@ class Command(object):
         cmd = self._find_command(usr_txt)
         txt = self._get_formatted_id(usr_txt)
 
-        if cmd in self.commands:
+        if cmd in self.hidden_commands:
+            response += self.hidden_commands[cmd]()
+        elif cmd in self.commands:
             if cmd in ('echo', 'state'):
                 response += self.commands[cmd](txt)
             else:
                 response += self.commands[cmd]()
-        elif cmd in self.EXIT:
-            response += self.EXIT[cmd](user)
         else:
             response += "I do not understand the command: _*" + cmd + "*_. " + self._get_help()        
         return response    
@@ -93,7 +93,8 @@ class Command(object):
         _rallyresp = self.ayx._query_artifact_state(formatted_id, _artifact)        
         response = f"The current state of <{_rallyresp[0]}|{formatted_id}> is: *{_rallyresp[1]}*"
         return response
-    
+
+##
     def _get_artifact_owner(self, formatted_id):
         # identify attribute type from formatted id
         _artifact_key = regex.split('([\D]+)', formatted_id)[1]
@@ -106,11 +107,6 @@ class Command(object):
 
         # return response
 
-
 ##
-    def _quit(self, user):
-        if user is self.CREATOR:
-            sys.exit(1)
-        else:
-            pass
-   
+    def _quit(self):
+        sys.exit(1)
