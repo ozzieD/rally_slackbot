@@ -1,5 +1,5 @@
 ### MODULE IMPORTS
-# local source imports
+# local imports
 import command 
 
 class Event:

@@ -2,7 +2,7 @@
 # 3rd-party imports
 import regex, sys
 
-# local source imports
+# local imports
 import ayx_rally 
 
 class Command(object):
@@ -13,9 +13,10 @@ class Command(object):
             'TA': 'Task', 'TC': 'TestCase', 'TS': 'TestSet', 'F': 'PortfolioItem',
             'PI': 'PortfolioItem'
         }
-        self.ayx = ayx_rally.AyxRally()
+        self.AYX = ayx_rally.AyxRally()
         self.commands = {
             "help": self._get_help,
+            "owner": self._get_artifact_owner,
             "state": self._get_artifact_state
         }
         self.CREATOR = 'garth'
@@ -71,41 +72,52 @@ class Command(object):
         if cmd in self.hidden_commands:
             response += self.hidden_commands[cmd]()
         elif cmd in self.commands:
-            if cmd in ('echo', 'state'):
+            if cmd in ('owner', 'state'):
                 response += self.commands[cmd](txt)
             else:
                 response += self.commands[cmd]()
         else:
             response += "I do not understand the command: _*" + cmd + "*_. " + self._get_help()        
         return response    
-    
+
+##
+    def _get_artifact_owner(self, formatted_id):
+        # identify attribute type from formatted id
+        _artifact = self._get_artifact_type(formatted_id)
+
+        # pass the artifact type and formatted id to ayx_rally
+        _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, 'owner')
+
+        # populate the response with results
+        response = f"The owner of <{_rallyresp['url']}|{formatted_id}> is: *{_rallyresp['attr']}*"
+
+        # return response
+        return response 
+
+##
+    def _get_artifact_info(self, formatted_id, _attribute):
+        _artifact = self._get_artifact_type(formatted_id)
+        _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, _attribute)
+        
+
+##    
+    def _get_artifact_state(self, formatted_id):
+        _artifact = self._get_artifact_type(formatted_id)
+        _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, 'state')     
+        response = f"The current state of <{_rallyresp['url']}|{formatted_id}> is: *{_rallyresp['attr']}*"
+        return response
+
+##
+    def _get_artifact_type(self, formatted_id):
+        _K = regex.split('([\D]+)', formatted_id)[1]
+        return self.ARTIFACT_TYPE[_K]
+  
 ##    
     def _get_help(self):
         response = "I currently support the following commands:\r\n"
         for command in self.commands:
             response += command + '\r\n'
         return response 
-
-##    
-    def _get_artifact_state(self, formatted_id):
-        _artifact_key = regex.split('([\D]+)', formatted_id)[1]
-        _artifact = self.ARTIFACT_TYPE[_artifact_key]
-        _rallyresp = self.ayx._query_artifact_state(formatted_id, _artifact)        
-        response = f"The current state of <{_rallyresp[0]}|{formatted_id}> is: *{_rallyresp[1]}*"
-        return response
-
-##
-    def _get_artifact_owner(self, formatted_id):
-        # identify attribute type from formatted id
-        _artifact_key = regex.split('([\D]+)', formatted_id)[1]
-        _artifact_type = self.ARTIFACT_TYPE[_artifact_key]
-
-        # pass the artifact type and formatted id to ayx_rally
-        
-
-        # populate the response with results
-
-        # return response
 
 ##
     def _quit(self):

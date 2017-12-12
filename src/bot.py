@@ -5,7 +5,7 @@ import time
 from slackclient import SlackClient 
 from dotenv import load_dotenv, find_dotenv
 
-# local source imports
+# local imports
 import event 
 
 # expose local environment constants
