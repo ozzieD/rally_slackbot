@@ -1,11 +1,11 @@
-# rally_slackbot
-A slackbot for executing common tasks on the Rally platform (CA Agile Central) so you never have bother with it again
----
+# Rally Slackbot
+_A slackbot for executing common tasks on the CA Agile Central ("Rally") platform so you never have bother with it again_
+
 ## Set-up
 _coming soon_
 
----
-### TODO:
+
+#### todo:
 - add set-up instructions
 - add support for returning story-related details:
     * ~~state~~
