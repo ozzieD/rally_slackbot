@@ -1,8 +1,12 @@
+### MODULE IMPORTS
+# 3rd-party imports
 import os 
 import time 
-import event 
 from slackclient import SlackClient 
 from dotenv import load_dotenv, find_dotenv
+
+# local imports
+import event 
 
 # expose local environment constants
 load_dotenv(find_dotenv())

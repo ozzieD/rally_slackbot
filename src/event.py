@@ -1,3 +1,5 @@
+### MODULE IMPORTS
+# local imports
 import command 
 
 class Event:
@@ -36,7 +38,7 @@ class Event:
     
     def handle_event(self, user, command, channel):
         if command and channel:
-            response = self.command.handle_command(user, command)
+            response = self.command._handle_command(user, command)
 
             self.bot.slack_client.api_call('chat.postMessage', 
                 channel=channel, 
