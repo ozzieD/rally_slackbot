@@ -1,5 +1,5 @@
 # rally_slackbot
-A slackbot for executing common tasks on Rally platform (CA Agile Tech.) so you never have to log in again
+A slackbot for executing common tasks on the Rally platform (CA Agile Central) so you never have bother with it again
 ---
 ## Set-up
 _coming soon_
