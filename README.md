@@ -1,11 +1,13 @@
-# rally_slackbot
-A slackbot for executing common tasks on Rally platform (CA Agile Tech.) so you never have to log in again
+# Rally Slackbot
+_A slackbot for executing common tasks on the CA Agile Central ("Rally") platform so you never have bother with it again_
+
+## Set-up
+_coming soon_
 
 
-
----
-### TODO:
-1. add support for returning story-related details:
+#### todo:
+- add set-up instructions
+- add support for returning story-related details:
     * ~~state~~
     * status (i.e., 'Ready', 'Blocked', 'BlockedReason')
     * descriptions
@@ -14,7 +16,7 @@ A slackbot for executing common tasks on Rally platform (CA Agile Tech.) so you 
     * owner
     * parent (id, name, url)
     * last update
-2. add support for updating story-related details:
+- add support for updating story-related details:
     * state
     * status (i.e., 'Ready', 'Blocked', 'BlockedReason')
     * descriptions
