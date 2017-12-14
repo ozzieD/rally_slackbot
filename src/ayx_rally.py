@@ -35,29 +35,28 @@ class AyxRally:
         self.rally_url = f"https://rally1.rallydev.com/#/{rally_project_id}"
     
     def _rally_get(self, _artifact, _query):
-        _rallyresp = self.rally.get(_artifact, fetch=True, query=_query).content['QueryResult']['Results'][0]
-        response = {result: _rallyresp[result] for result in [self.RALLYREST_KEYS[k] for k in self.RALLYREST_KEYS]}
-        for _k in response.keys():
-            if isinstance(response[_k], dict):
-                try:
-                    response[_k] = response[_k].get('_refObjectName')
-                except TypeError:
-                    response[_k] = 'Unspecified'
+        response = self.rally.get(_artifact, fetch=True, query=_query).content['QueryResult']['Results'][0]
         return response 
 
     def _artifact_info(self, _id, _artifact, _attrib):
 
         _query = f'FormattedID = "{_id}"'
-        _rallyget = self._rally_get(_artifact, _query)
+        _rallyresp = self._rally_get(_artifact, _query)
+        _rallyresp = {
+            (_k if _k else _k): (_rallyresp[_k].get('_refObjectName') 
+            if isinstance(_rallyresp[_k], dict) else _rallyresp[_k]) 
+            for _k in [self.RALLYREST_KEYS[k] for k in self.RALLYREST_KEYS]
+            }
 
         response = {
             "id": _id,
-            "url": self.rally_url + '/detail/userstory/' + str(_rallyget[self.RALLYREST_KEYS['OID']])
+            "url": self.rally_url + '/detail/userstory/' + str(_rallyresp[self.RALLYREST_KEYS['OID']])
             }
-        if _attrib in ('state'):
-            response['attr'] = _rallyget[self.RALLYREST_KEYS['KSA']]
-        elif _attrib in ('owner'):
-            response['attr'] = _rallyget[self.RALLYREST_KEYS['O']]
+        
+        if _attrib in ('owner'):
+            response['attr'] = _rallyresp[self.RALLYREST_KEYS['O']]
+        elif _attrib in ('state'):
+            response['attr'] = _rallyresp[self.RALLYREST_KEYS['KSA']]
         
         return response
 
