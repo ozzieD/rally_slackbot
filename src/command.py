@@ -42,12 +42,10 @@ class Command(object):
 
         # scan for keyword
         _MSG0 = regex.search(_P0, usr_txt)
-        print(_MSG0)
         if bool(_MSG0):
             _P1 = regex.compile('(' + usr_txt[_MSG0.start():_MSG0.end()] + '){e<=2}', _FLAGS)
             for _FUNC in self.METHOD_LIST:
                 _MSG1 = regex.search(_P1, _FUNC)
-                print(_MSG1)
                 if bool(_MSG1):
                     response = _MSG1.group().lower()
         else:
@@ -71,9 +69,7 @@ class Command(object):
     def _handle_command(self, user, usr_txt):
         response = '<@' + user + '> '
         cmd = self._find_command(usr_txt)
-        print(cmd)
         txt = self._get_formatted_id(usr_txt)
-        print(txt)
 
         if cmd in self.hidden_commands:
             response += self.hidden_commands[cmd]()
