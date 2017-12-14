@@ -34,9 +34,11 @@ class Command(object):
 
 ##    
     def _find_command(self, usr_txt):
-        response = ""; _P0 = ""; _P1 = ""
+        response = ""
+        _P0 = ""
+        _P1 = ""
         _FLAGS = regex.I | regex.BESTMATCH        
-        _P0 = regex.compile('(' + self._build_search_pattern(self.METHOD_LIST) + '){e<=1}', _FLAGS)
+        _P0 = regex.compile('(' + self._build_search_pattern(self.METHOD_LIST) + '){e<=2}', _FLAGS)
 
         # scan for keyword
         _MSG0 = regex.search(_P0, usr_txt)
