@@ -6,6 +6,7 @@ _coming soon_
 
 
 #### todo:
+- wholesale replace of 'regex' module w/ 'fuzzywuzzy'
 - add set-up instructions
 - add support for returning story-related details:
     * ~~state~~

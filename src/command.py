@@ -16,8 +16,9 @@ class Command(object):
         self.AYX = ayx_rally.AyxRally()
         self.commands = {
             "help": self._get_help,
-            "owner": self._get_artifact_owner,
-            "state": self._get_artifact_state
+            "owner": self._get_artifact_info,
+            "status": self._get_artifact_info,
+            "state": self._get_artifact_info
         }
         self.CREATOR = 'garth'
         self.hidden_commands = {
@@ -68,16 +69,18 @@ class Command(object):
 ##
     def _handle_command(self, user, usr_txt):
         response = '<@' + user + '> '
-        cmd = self._find_command(usr_txt)
-        txt = self._get_formatted_id(usr_txt)
+        _CMD = self._find_command(usr_txt)
+        _ID = self._get_formatted_id(usr_txt)
 
-        if cmd in self.hidden_commands:
-            response += self.hidden_commands[cmd]()
-        elif cmd in self.commands:
-            if cmd in ('owner', 'state'):
-                response += self.commands[cmd](txt)
+        if _CMD in self.hidden_commands:
+            response += self.hidden_commands[_CMD]()
+        elif _CMD in self.commands:
+            if _CMD in ('owner'):
+                response += self.commands[_CMD](_ID, 'O')
+            elif _CMD in ('state'):
+                response += self.commands[_CMD](_ID, 'KSA')
             else:
-                response += self.commands[cmd]()
+                response += self.commands[_CMD]()
         else:
             response += "I do not understand the command: _*" + cmd + "*_. " + self._get_help()        
         return response    
@@ -100,6 +103,7 @@ class Command(object):
     def _get_artifact_info(self, formatted_id, _attribute):
         _artifact = self._get_artifact_type(formatted_id)
         _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, _attribute)
+        return _rallyresp['msg']
         
 
 ##    
