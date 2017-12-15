@@ -31,11 +31,11 @@ class Command(object):
         self.METHOD_LIST = list(getattr(self, "commands").keys())
         
 ##
-    def _build_search_pattern(self, list_arry):
-        response = ""
-        for _M in list_arry:
-            response += _M + '|'
-        return response.strip('|')
+    # def _build_search_pattern(self, list_arry):
+    #     response = ""
+    #     for _M in list_arry:
+    #         response += _M + '|'
+    #     return response.strip('|')
 
 ##    
     def _find_command(self, usr_txt):
@@ -113,6 +113,13 @@ class Command(object):
         return response    
 
 ##
+    def _get_artifact_info(self, formatted_id, _attribute):
+        _artifact = self._get_artifact_type(formatted_id)
+        _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, _attribute)
+        return _rallyresp['msg']
+        
+
+##
     def _get_artifact_owner(self, formatted_id):
         # identify attribute type from formatted id
         _artifact = self._get_artifact_type(formatted_id)
@@ -126,12 +133,6 @@ class Command(object):
         # return response
         return response 
 
-##
-    def _get_artifact_info(self, formatted_id, _attribute):
-        _artifact = self._get_artifact_type(formatted_id)
-        _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, _attribute)
-        return _rallyresp['msg']
-        
 
 ##    
     def _get_artifact_state(self, formatted_id):
