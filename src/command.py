@@ -18,6 +18,7 @@ class Command(object):
         
         self.commands = {
             "help": self._get_help,
+            "name": self._get_artifact_info,
             "owner": self._get_artifact_info,
             "status": self._get_artifact_info,
             "state": self._get_artifact_info
@@ -77,7 +78,7 @@ class Command(object):
         if response[0] > 50:
             return response[1]
         else:
-            return f'No suitable match for: "{text}" Please rewrite your request.'
+            return f'No suitable match for: "{usr_txt}" Please rewrite your request.'
 
 ##    
     def _get_formatted_id(self, usr_txt):
@@ -99,17 +100,19 @@ class Command(object):
         _ID = self._get_formatted_id(usr_txt)
         print(_ID)
 
-        if _CMD in self.hidden_commands:
-            response += self.hidden_commands[_CMD]()
+        if usr_txt in self.hidden_commands:
+            response += self.hidden_commands[usr_txt]()
         elif _CMD in self.commands:
-            if _CMD in ('owner'):
+            if _CMD in ('name'):
+                response += self.commands[_CMD](_ID, 'N')
+            elif _CMD in ('owner'):
                 response += self.commands[_CMD](_ID, 'O')
             elif _CMD in ('state'):
                 response += self.commands[_CMD](_ID, 'KSA')
             else:
                 response += self.commands[_CMD]()
         else:
-            response += "I do not understand the command: _*" + cmd + "*_. " + self._get_help()        
+            response += "I do not understand the command: _*" + _CMD + "*_. " + self._get_help()        
         return response    
 
 ##
