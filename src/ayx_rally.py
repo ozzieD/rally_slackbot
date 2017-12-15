@@ -55,10 +55,10 @@ class AyxRally:
         
         if _attrib in ('KSA'):
             response['attr'] = _rallyresp[self.RALLYREST_KEYS[_attrib]]
-            response['msg'] = f"The current state of <{_rallyresp['url']}|{formatted_id}> is: *{_rallyresp['attr']}*"
+            response['msg'] = f"The current state of <{response['url']}|{_id}> is: *{response['attr']}*"
         elif _attrib in ('O'):
             response['attr'] = _rallyresp[self.RALLYREST_KEYS[_attrib]]
-            response['msg'] = f"The owner of <{_rallyresp['url']}|{formatted_id}> is: *{_rallyresp['attr']}*"
+            response['msg'] = f"The owner of <{response['url']}|{_id}> is: *{response['attr']}*"
         
         return response
 
