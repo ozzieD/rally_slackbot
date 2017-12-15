@@ -29,36 +29,9 @@ class Command(object):
         self.hidden_commands = {
             "quit": self._quit
         }
-        self.METHOD_LIST = list(getattr(self, "commands").keys())
-        
-##
-    # def _build_search_pattern(self, list_arry):
-    #     response = ""
-    #     for _M in list_arry:
-    #         response += _M + '|'
-    #     return response.strip('|')
 
 ##    
     def _find_command(self, usr_txt):
-        # response = ""
-        # _P0 = ""
-        # _P1 = ""
-        # _FLAGS = regex.I | regex.BESTMATCH        
-        # _P0 = regex.compile('(' + self._build_search_pattern(self.METHOD_LIST) + '){e<=2}', _FLAGS)
-
-        # # scan for keyword
-        # _MSG0 = regex.search(_P0, usr_txt)
-        # if bool(_MSG0):
-        #     _P1 = regex.compile('(' + usr_txt[_MSG0.start():_MSG0.end()] + '){e<=2}', _FLAGS)
-        #     for _FUNC in self.METHOD_LIST:
-        #         _MSG1 = regex.search(_P1, _FUNC)
-        #         if bool(_MSG1):
-        #             response = _MSG1.group().lower()
-        # else:
-        #     print("No matches...[TODO: write logic to handle when messages aren't matched]")
-        #     response = usr_txt
-        # return response                
-    # def _find_command(text):
         lis = []
         fuzz_methods = ['ratio', 'partial_ratio', 'token_sort_ratio', 'partial_token_sort_ratio', 'token_set_ratio', 'partial_token_set_ratio']
         for m in fuzz_methods:
