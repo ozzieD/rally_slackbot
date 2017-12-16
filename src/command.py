@@ -51,7 +51,7 @@ class Command(object):
         if response[0] > 50:
             return response[1]
         else:
-            return f'No suitable match for: "{usr_txt}" Please rewrite your request.'
+            return f'No suitable match for: "{usr_txt}". Please rewrite your request.'
 
 ##    
     def _get_formatted_id(self, usr_txt):
