@@ -55,16 +55,15 @@ class Command(object):
 
 ##    
     def _get_formatted_id(self, usr_txt):
-        _FLAGS = regex.I
-        _P0 = regex.compile('((?:US|DE|DS|TA|TC|TS|PI)[0-9]+)', _FLAGS)
-        _MSG = regex.search(_P0, usr_txt)
-        response = ""
-        if bool(_MSG):
-            response = _MSG.group().upper()
+        puncts = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+        for wrd in usr_txt.split():        
+            for p in puncts:
+                wrd = wrd.replace(p, '')
+
+        if not wrd.isalpha():
+            return wrd.upper()
         else:
-            response = usr_txt
-        return response
-                
+            return f"No Rally IDs found in: {usr_txt}"        
 ##
     def _handle_command(self, user, usr_txt):
         response = '<@' + user + '> '
