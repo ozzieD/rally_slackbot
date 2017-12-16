@@ -93,29 +93,6 @@ class Command(object):
         _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, _attribute)
         return _rallyresp['msg']
         
-
-##
-    def _get_artifact_owner(self, formatted_id):
-        # identify attribute type from formatted id
-        _artifact = self._get_artifact_type(formatted_id)
-
-        # pass the artifact type and formatted id to ayx_rally
-        _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, 'owner')
-
-        # populate the response with results
-        response = f"The owner of <{_rallyresp['url']}|{formatted_id}> is: *{_rallyresp['attr']}*"
-
-        # return response
-        return response 
-
-
-##    
-    def _get_artifact_state(self, formatted_id):
-        _artifact = self._get_artifact_type(formatted_id)
-        _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, 'state')     
-        response = f"The current state of <{_rallyresp['url']}|{formatted_id}> is: *{_rallyresp['attr']}*"
-        return response
-
 ##
     def _get_artifact_type(self, formatted_id):
         _K = regex.split('([\D]+)', formatted_id)[1]
