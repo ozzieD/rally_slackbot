@@ -50,13 +50,18 @@ class AyxRally:
 
         response = {
             "id": _id,
-            "url": self.rally_url + '/detail/userstory/' + str(_rallyresp[self.RALLYREST_KEYS['OID']])
+            "url": self.rally_url + f'/detail/{_artifact.lower()}/' + str(_rallyresp[self.RALLYREST_KEYS['OID']])
             }
         
-        if _attrib in ('owner'):
-            response['attr'] = _rallyresp[self.RALLYREST_KEYS['O']]
-        elif _attrib in ('state'):
-            response['attr'] = _rallyresp[self.RALLYREST_KEYS['KSA']]
+        if _attrib in ('KSA'):
+            response['attr'] = _rallyresp[self.RALLYREST_KEYS[_attrib]]
+            response['msg'] = f"The current state of <{response['url']}|{_id}> is: *{response['attr']}*"
+        elif _attrib in ('N'):
+            response['attr'] = _rallyresp[self.RALLYREST_KEYS[_attrib]]
+            response['msg'] = f"The {_artifact} name for <{response['url']}|{_id}> is:\r\n&gt;_*{response['attr']}*_"    
+        elif _attrib in ('O'):
+            response['attr'] = _rallyresp[self.RALLYREST_KEYS[_attrib]]
+            response['msg'] = f"The owner of <{response['url']}|{_id}> is: *{response['attr']}*"
         
         return response
 
