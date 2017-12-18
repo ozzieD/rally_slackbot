@@ -14,7 +14,7 @@ _coming soon_
     * descriptions
     * estimate
     * iteration
-    * owner
+    * ~~owner~~
     * parent (id, name, url)
     * last update
 - add support for updating story-related details:
