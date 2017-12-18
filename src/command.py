@@ -33,7 +33,14 @@ class Command(object):
 ##    
     def _find_command(self, usr_txt):
         lis = []
-        fuzz_methods = ['ratio', 'partial_ratio', 'token_sort_ratio', 'partial_token_sort_ratio', 'token_set_ratio', 'partial_token_set_ratio']
+        fuzz_methods = [
+            'ratio', 
+            'partial_ratio', 
+            'token_sort_ratio', 
+            'partial_token_sort_ratio', 
+            'token_set_ratio', 
+            'partial_token_set_ratio'
+            ]
         for m in fuzz_methods:
             RATIOS = []
             VALUES = []
