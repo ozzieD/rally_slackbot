@@ -18,6 +18,7 @@ class Command(object):
         
         self.commands = {
             "help": self._get_help,
+            "estimate": self._get_artifact_info,
             "name": self._get_artifact_info,
             "owner": self._get_artifact_info,
             "status": self._get_artifact_info,
@@ -82,7 +83,9 @@ class Command(object):
         if usr_txt in self.hidden_commands:
             response += self.hidden_commands[usr_txt]()
         elif _CMD in self.commands:
-            if _CMD in ('name'):
+            if _CMD in ('estimate'):
+                response += self.commands[_CMD](_ID, 'PE')
+            elif _CMD in ('name'):
                 response += self.commands[_CMD](_ID, 'N')
             elif _CMD in ('owner'):
                 response += self.commands[_CMD](_ID, 'O')

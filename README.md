@@ -12,8 +12,9 @@ _coming soon_
     * ~~state~~
     * status (i.e., 'Ready', 'Blocked', 'BlockedReason')
     * descriptions
-    * estimate
+    * ~~estimate~~
     * iteration
+    * name 
     * ~~owner~~
     * parent (id, name, url)
     * last update
