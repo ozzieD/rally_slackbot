@@ -12,9 +12,10 @@ _coming soon_
     * ~~state~~
     * status (i.e., 'Ready', 'Blocked', 'BlockedReason')
     * descriptions
-    * estimate
+    * ~~estimate~~
     * iteration
-    * owner
+    * name 
+    * ~~owner~~
     * parent (id, name, url)
     * last update
 - add support for updating story-related details:
