@@ -33,7 +33,15 @@ class AyxRally:
         rally_project = self.rally.get("Project", fetch=True, query=f'Name = "{RALLY_PROJECT}"').content['QueryResult']['Results'][0]
         rally_project_id = rally_project.get('ObjectID')
         self.rally_url = f"https://rally1.rallydev.com/#/{rally_project_id}"
-    
+
+        # response = self.rally.get('UserStory', fetch=True,query='((Iteration.Name = "17-4-4") AND (Project.Name = "Content Engineering"))').content['QueryResult']['Results']
+        # # (Release.Name = "PI 17-4  |  Sweet Potato PI")
+        # # .content['QueryResult']['Results']
+        # # AND(Iteration.Name = "17-4-4")
+        # # print(response.next().details())
+        # story_list =  '\n'.join([response[story]['FormattedID'] + ': ' + response[story]['Name'] for story in range(len(response))])
+        # print(story_list)
+
     def _rally_get(self, _artifact, _query):
         response = self.rally.get(_artifact, fetch=True, query=_query).content['QueryResult']['Results'][0]
         return response 
@@ -46,6 +54,11 @@ class AyxRally:
             }
         return response             
             
+
+    def _get_all_stories(self):
+        response = self.rally.get('UserStory', fetch=True,query='((Iteration.Name = "17-4-4") AND (Project.Name = "Content Engineering"))').content['QueryResult']['Results']
+        story_list = '\n'.join([response[story]['FormattedID'] + ': ' + response[story]['Name'] for story in range(len(response))])
+        return story_list
 
     def _artifact_info(self, _id, _artifact, _attrib):
 

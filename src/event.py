@@ -21,6 +21,8 @@ class Event:
         """
         events = self.bot.slack_client.rtm_read()
 
+        print('wait_for_event: ', events)
+
         if events and len(events) > 0:
             for event in events:
                 self.parse_event(event)
@@ -29,11 +31,14 @@ class Event:
         """
         parses the text from slack rtm message
         """
+
+        print(event)
         if event and 'text' in event and self.bot_id in event['text']:            
             usr = event['user']
             cmd = event['text'].split(self.bot_id)[1].strip().lower()
             chnnl = event['channel']
 
+            print('Parse event',usr, cmd, chnnl)
             self.handle_event(usr, cmd, chnnl)
     
     def handle_event(self, user, command, channel):

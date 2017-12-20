@@ -21,6 +21,8 @@ class Bot(object):
         # collect service agent info
         self.BOT_NAME = os.environ.get('SLACK_BOT_NAME')
         self.BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
+
+        print(self.BOT_NAME)
         
         self.slack_client = SlackClient(self.BOT_TOKEN)
         self.bot_name = self.BOT_NAME 

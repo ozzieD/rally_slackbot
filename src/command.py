@@ -22,7 +22,8 @@ class Command(object):
             "name": self._get_artifact_info,
             "owner": self._get_artifact_info,
             "status": self._get_artifact_info,
-            "state": self._get_artifact_info
+            "state": self._get_artifact_info,
+            "list all stories": self.AYX._get_all_stories
         }
         self.COMMANDS_LIST = list(self.commands.keys())
         self.CREATOR = 'garth'
@@ -99,8 +100,10 @@ class Command(object):
 
 ##
     def _get_artifact_info(self, formatted_id, _attribute):
+        print('_get_artifact_info' + formatted_id + _attribute)
         _artifact = self._get_artifact_type(formatted_id)
         _rallyresp = self.AYX._artifact_info(formatted_id, _artifact, _attribute)
+        print('_get_artifact_info' + ' ' + _artifact)
         return _rallyresp['msg']
         
 ##
